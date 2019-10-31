@@ -6,54 +6,94 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 13:53:51 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/28 18:03:00 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/31 11:20:39 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-/* ************************************************************************** */
-// NEEDING : 
-//		-> new list
-//		-> check fd exist , if yes, return position, else create it and return 
-//		   this one
-//		-> ft_strdel = sup avant le \n , ecrit jusqua \0 puis ecrit que
-//		   des \0 jusqua la fin
-/* ************************************************************************** */
-
 #include "get_next_line.h"
 
-int		ft_strlchr(const char *s)
+static void		ft_strdel(t_list *lst_fd)
 {
-	long		i;
+	size_t i;
+	size_t j;
 
-	i = -1;
-	while (s[++i] != '\0')
-		if (s[i] == "\n")
-			return (i);
-	return (i);
+	j = 0;
+	i = ft_strlchr(lst_fd->buffer);
+	while (lst_fd->buffer[i] != '\0')
+	{
+		lst_fd->buffer[j] = lst_fd->buffer[i];
+		i++;
+		j++;
+	}
+	while (lst_fd->buffer[j] != '\0')
+	{
+		lst_fd->buffer[j] = '\0';
+		j++;
+	}
+	return (0);
 }
 
-int		*ft_strjoin(char const *s1, char const *s2)
+t_list			*ft_list(t_list *lst, int fd)
+{
+	t_list	*beg_lst;
+	t_list	*new;
+	char	buffer[BUFFER_SIZE + 1];
+
+	beg_lst = lst;
+	while (beg_lst != NULL || beg_lst->fd != fd)
+		beg_lst = beg_lst->next;
+	if (beg_lst == NULL)
+	{
+		if (!(new = malloc(sizeof(t_list))))
+			return (NULL);
+		new->fd = fd;
+		new->next = NULL;
+		new->buffer = buffer;
+		beg_lst = lst;
+		while (beg_lst->next != NULL)
+			beg_lst = beg_lst->next;
+		beg_lst->next = new;
+		return (new);
+	}
+	return (beg_lst);
+}
+
+static size_t	ft_strlchr(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[++i - 1] != '\0')
+		if (s[i - 1] == '\n')
+			return (i - 1);
+	return (i - 1);
+}
+
+int				*ft_strjoin(char const *s1, char const *s2, t_list *lst_fd)
 {
 	char	*ptr;
-	int		i;
-	int		j;
+	size_t	i;
+	size_t	j;
 
 	if (!(ptr = malloc(ft_strlchr(s1) + ft_strlchr(s2) + 1))
 	|| s1 == NULL || s2 == NULL)
 		return (-1);
 	*ptr = 0;
-	i = -1;
+	i = 0;
 	j = 0;
-	while (s1[++i])
-		ptr[i] = s1[i];
+	while (s1[++i - 1])
+		ptr[i - 1] = s1[i - 1];
+	free(s1);
+	s1 = ptr;
 	while (s2[j] && s2[j] != '\n')
 	{
-		ptr[i + j] = s2[j];
+		ptr[i - 1 + j] = s2[j];
 		j++;
 	}
-	ptr[i + j] = 0;
+	ptr[i - 1 + j] = 0;
 	if (s2[j] != '\n')
 		return (1);
+	ft_strdel(lst_fd);
 	return (0);
 }
