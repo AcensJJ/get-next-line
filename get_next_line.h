@@ -6,7 +6,7 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 13:53:48 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/31 11:18:30 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/10/31 16:58:57 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -17,15 +17,19 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <string.h>
+# include <sys/uio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
 
 typedef struct		s_list
 {
 	int				fd;
 	char			*buffer;
+	char			*line;
 	struct s_list	*next;
 }					t_list;
 
-t_list				*ft_list(t_list *lst, int fd);
-int					*ft_strjoin(char const *s1, char const *s2, t_list *lst_fd);
+int					ft_strjoin(t_list *lst_fd);
 int					get_next_line(int fd, char **line);
 #endif
