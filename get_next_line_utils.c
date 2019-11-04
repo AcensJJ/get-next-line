@@ -6,14 +6,14 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 13:53:51 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/11/04 16:55:53 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/11/04 17:01:22 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char			*ft_strcpy(char *dest, const char *src)
+char		*ft_strcpy(char *dest, const char *src)
 {
 	size_t		i;
 
@@ -27,7 +27,7 @@ char			*ft_strcpy(char *dest, const char *src)
 	return (dest);
 }
 
-char			*ft_strdup(const char *src)
+char		*ft_strdup(const char *src)
 {
 	char		*dest;
 	size_t		i;
@@ -42,7 +42,7 @@ char			*ft_strdup(const char *src)
 	return (dest);
 }
 
-static size_t	ft_strlchr(const char *s)
+size_t		ft_strlchr(const char *s)
 {
 	size_t	i;
 
@@ -58,7 +58,7 @@ static size_t	ft_strlchr(const char *s)
 	return (i);
 }
 
-static void		ft_strdel(t_list *lst_fd)
+void		ft_strdel(t_list *lst_fd)
 {
 	size_t i;
 	size_t j;
@@ -78,7 +78,7 @@ static void		ft_strdel(t_list *lst_fd)
 	}
 }
 
-static char		*ft_strcat(char *dest, char *src)
+char		*ft_strcat(char *dest, char *src)
 {
 	int i;
 	int j;
