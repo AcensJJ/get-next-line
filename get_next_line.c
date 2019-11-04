@@ -6,7 +6,7 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 14:58:07 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/11/04 16:03:10 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/11/04 16:09:35 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -134,4 +134,22 @@ int				get_next_line(int fd, char **line)
 	*/
 
 	return (0);
+}
+int main(void)
+{
+	int fd;
+	int fd2;
+	int a;
+	int count;
+	char line[255];
+
+	a = 10;
+	count = 0;
+	fd = open("test.txt", O_RDONLY);
+	while (a != 0)
+	{
+		a = get_next_line(fd, &line);
+		count++;
+	}
+	printf("total line = %d\n", count);
 }
