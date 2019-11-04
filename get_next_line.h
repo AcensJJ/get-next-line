@@ -6,7 +6,7 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 13:53:48 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/11/04 14:16:08 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/11/04 16:52:03 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,6 +30,7 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
-int					ft_strjoin(t_list *lst_fd);
+char				*ft_strcpy(char *dest, const char *src);
+char				*ft_strdup(const char *src);
 int					get_next_line(int fd, char **line);
 #endif

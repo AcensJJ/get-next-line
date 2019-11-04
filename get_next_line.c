@@ -6,7 +6,7 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 14:58:07 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/11/04 16:09:35 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/11/04 16:55:33 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,45 +16,51 @@
 static int		ft_read_buffer(int fd, t_list **lst_fd)
 {
 	int		ret;
+	char	buffer[BUFFER_SIZE + 1];
 
-	ret = read(fd, (*lst_fd)->buffer, BUFFER_SIZE);
-	(*lst_fd)->buffer[ret] = '\0';
+	ret = read(fd, buffer, BUFFER_SIZE);
+	buffer[ret] = '\0';
 	while (++ret <= BUFFER_SIZE)
-		(*lst_fd)->buffer[ret] = '\0';
-
-	// printf("After READ BUFFER\n");
-	// printf("buffer = %s\n\n", (*lst_fd)->buffer);
-
+		buffer[ret] = '\0';
+	(*lst_fd)->buffer = ft_strdup(buffer);
 	return (ret);
 }
 
-static int		ft_clear_one_line(t_list *lst_fd, int fd)
+static int		ft_strjoin_lst(t_list *lst_fd)
+{
+	char	*ptr;
+	size_t	i;
+	size_t	j;
+
+	i = ft_strlchr(lst_fd->line);
+	j = ft_strlchr(lst_fd->buffer);
+	if (!(ptr = malloc(i + j + 1))
+	|| lst_fd->buffer == NULL)
+		return (-1);
+	*ptr = 0;
+	if (lst_fd->line != NULL)
+		ptr = ft_strcat(ptr, lst_fd->line);
+	free((void *)lst_fd->line);
+	lst_fd->line = ptr;
+	ptr = ft_strcat(ptr, lst_fd->buffer);
+	ptr[i + j] = 0;
+	if (lst_fd->buffer[j] != '\n')
+		return (0);
+	ft_strdel(lst_fd);
+	return (1);
+}
+
+static int		ft_clear_one_line(t_list *lst_fd, int fd, t_list *new)
 {
 	int a;
 	int b;
 
 	a = 1;
 	b = 1;
-
-	// printf("CLEAR start INFO\n");
-	// printf("a = %d\n", a);
-	// printf("b = %d\n", b);
-	
 	while (a == 1 && b != 0)
 	{
 		a = ft_strjoin(lst_fd);
 		b = ft_read_buffer(fd, &lst_fd);
-
-		// printf("After Clear ONE\n");
-		// printf("buffer = %s\n\n", lst_fd->buffer);
-
-		// printf("CLEAR END INFO\n");
-		// printf("a = %d\n", a);
-		// printf("b = %d\n", b);
-		// printf("--------\n\n");
-
-		// sleep(5);
-
 		if (a == -1)
 			return (-1);
 	}
@@ -65,9 +71,7 @@ static t_list	*ft_list(t_list **lst, int fd)
 {
 	t_list	*beg_lst;
 	t_list	*tmp;
-	char	buffer[BUFFER_SIZE + 1];
 	char	*line;
-	t_list			*new = NULL;
 
 	beg_lst = *lst;
 	line = NULL;
@@ -82,24 +86,13 @@ static t_list	*ft_list(t_list **lst, int fd)
 		return (NULL);
 	new->fd = fd;
 	new->next = NULL;
-	new->buffer = buffer;
+	new->buffer = NULL;
 	new->line = line;
 	ft_read_buffer(fd, &new);
-
-	printf("After LIST ADD\n");
-	printf("1\n");
-	printf("buffer = %s\n\n", new->buffer);
-	printf("%p \n", new->buffer);
-
 	if (*lst == NULL)
 		*lst = new;
 	else
 		tmp->next = new;
-
-	printf("2\n");
-	printf("buffer = %s\n\n", new->buffer);
-
-
 	return (new);
 }
 
@@ -107,49 +100,17 @@ int				get_next_line(int fd, char **line)
 {
 	static t_list	*lst;
 	t_list			*lst_fd;
-
+	t_list			*new;
 
 	if (read(fd, 0, 0) < 0 || line == NULL)
 		return (-1);
-	ft_list(&lst, fd);
+	lst_fd = ft_list(&lst, fd, new);
 	if (lst_fd == NULL)
 		return (-1);
-
-	if (lst_fd)
-	{
-		printf("%p \n", lst_fd->buffer);
-		printf("After LIST IN GNL\n");
-		printf("3\n");
-		printf("buffer = |%s|\n\n", lst_fd->buffer);
-	}
-	/*
 	if (lst_fd->buffer[0] == '\0' || lst_fd->buffer == NULL)
 		if (ft_read_buffer(fd, lst_fd) == 0)
 			return (0);
-	printf("After GNL\n");
-	printf("buffer = %s\n\n", lst_fd->buffer);
 	if (ft_clear_one_line(lst_fd, fd) == -1)
 		return (-1);
 	return (1);
-	*/
-
-	return (0);
-}
-int main(void)
-{
-	int fd;
-	int fd2;
-	int a;
-	int count;
-	char line[255];
-
-	a = 10;
-	count = 0;
-	fd = open("test.txt", O_RDONLY);
-	while (a != 0)
-	{
-		a = get_next_line(fd, &line);
-		count++;
-	}
-	printf("total line = %d\n", count);
 }

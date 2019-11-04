@@ -6,12 +6,41 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 13:53:51 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/11/04 14:34:14 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/11/04 16:55:53 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char			*ft_strcpy(char *dest, const char *src)
+{
+	size_t		i;
+
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = 0;
+	return (dest);
+}
+
+char			*ft_strdup(const char *src)
+{
+	char		*dest;
+	size_t		i;
+
+	i = 0;
+	while (src[i] != '\0')
+		i++;
+	if (!(dest = malloc(sizeof(char) * (i + 1))))
+		return (NULL);
+	*dest = 0;
+	ft_strcpy(dest, src);
+	return (dest);
+}
 
 static size_t	ft_strlchr(const char *s)
 {
@@ -65,36 +94,4 @@ static char		*ft_strcat(char *dest, char *src)
 	}
 	dest[i + j] = '\0';
 	return (dest);
-}
-
-int				ft_strjoin(t_list *lst_fd)
-{
-	char	*ptr;
-	size_t	i;
-	size_t	j;
-
-	// printf("STRJOIN start INFO\n");
-	// printf("buffer = %s\n", lst_fd->buffer);
-	// printf("line = %s\n", lst_fd->line);
-	// printf("--------\n\n");	
-	i = ft_strlchr(lst_fd->line);
-	j = ft_strlchr(lst_fd->buffer);
-	if (!(ptr = malloc(i + j + 1))
-	|| lst_fd->buffer == NULL)
-		return (-1);
-	*ptr = 0;
-	if (lst_fd->line != NULL)
-		ptr = ft_strcat(ptr, lst_fd->line);
-	free((void *)lst_fd->line);
-	lst_fd->line = ptr;
-	ptr = ft_strcat(ptr, lst_fd->buffer);
-	ptr[i + j] = 0;
-	if (lst_fd->buffer[j] != '\n')
-		return (0);
-	ft_strdel(lst_fd);
-	// printf("STRJOIN END INFO\n");
-	// printf("buffer = %s\n", lst_fd->buffer);
-	// printf("line = %s\n", lst_fd->line);
-	// printf("--------\n\n");
-	return (1);
 }
