@@ -6,7 +6,7 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 13:53:51 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/10/31 17:04:06 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/11/04 14:34:14 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -26,7 +26,7 @@ static size_t	ft_strlchr(const char *s)
 			return (i);
 		i++;
 	}
-	return (i - 1);
+	return (i);
 }
 
 static void		ft_strdel(t_list *lst_fd)
@@ -73,6 +73,10 @@ int				ft_strjoin(t_list *lst_fd)
 	size_t	i;
 	size_t	j;
 
+	// printf("STRJOIN start INFO\n");
+	// printf("buffer = %s\n", lst_fd->buffer);
+	// printf("line = %s\n", lst_fd->line);
+	// printf("--------\n\n");	
 	i = ft_strlchr(lst_fd->line);
 	j = ft_strlchr(lst_fd->buffer);
 	if (!(ptr = malloc(i + j + 1))
@@ -86,7 +90,11 @@ int				ft_strjoin(t_list *lst_fd)
 	ptr = ft_strcat(ptr, lst_fd->buffer);
 	ptr[i + j] = 0;
 	if (lst_fd->buffer[j] != '\n')
-		return (1);
+		return (0);
 	ft_strdel(lst_fd);
-	return (0);
+	// printf("STRJOIN END INFO\n");
+	// printf("buffer = %s\n", lst_fd->buffer);
+	// printf("line = %s\n", lst_fd->line);
+	// printf("--------\n\n");
+	return (1);
 }
