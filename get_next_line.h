@@ -6,7 +6,7 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 13:53:48 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/11/04 17:01:44 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/11/05 11:58:44 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -34,6 +34,6 @@ char				*ft_strcpy(char *dest, const char *src);
 char				*ft_strdup(const char *src);
 size_t				ft_strlchr(const char *s);
 void				ft_strdel(t_list *lst_fd);
-char				*ft_strcat(char *dest, char *src);
+char				*ft_strcat_line(char *dest, char *src);
 int					get_next_line(int fd, char **line);
 #endif

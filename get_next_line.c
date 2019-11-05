@@ -6,7 +6,7 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 14:58:07 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/11/04 18:15:40 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/11/05 13:46:47 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -16,13 +16,17 @@
 static int		ft_read_buffer(int fd, t_list **lst_fd)
 {
 	int		ret;
-	char	buffer[BUFFER_SIZE + 1];
+	char	*buffer;
 
+	if (!(buffer = malloc(BUFFER_SIZE + 1)))
+		return (-1);
+	*buffer = 0;
 	ret = read(fd, buffer, BUFFER_SIZE);
 	buffer[ret] = '\0';
 	while (++ret <= BUFFER_SIZE)
 		buffer[ret] = '\0';
 	(*lst_fd)->buffer = ft_strdup(buffer);
+	free(buffer);
 	return (ret);
 }
 
@@ -39,10 +43,10 @@ static int		ft_strjoin_lst(t_list *lst_fd)
 		return (-1);
 	*ptr = 0;
 	if (lst_fd->line != NULL)
-		ptr = ft_strcat(ptr, lst_fd->line);
+		ptr = ft_strcat_line(ptr, lst_fd->line);
 	free((void *)lst_fd->line);
 	lst_fd->line = ptr;
-	ptr = ft_strcat(ptr, lst_fd->buffer);
+	ptr = ft_strcat_line(ptr, lst_fd->buffer);
 	ptr[i + j] = 0;
 	if (lst_fd->buffer[j] != '\n')
 		return (0);
@@ -62,21 +66,22 @@ static int		ft_clear_one_line(t_list *lst_fd, int fd)
 		a = ft_strjoin_lst(lst_fd);
 		if (a == 0)
 			b = ft_read_buffer(fd, &lst_fd);
-		if (a == -1)
+		if (a == -1 || b == -1)
 			return (-1);
 	}
-	return (0);
+	if (a == 0 && b == 0)
+		return (0);
+	return (1);
 }
 
-static t_list	*ft_list(t_list **lst, int fd, t_list *new)
+static t_list	*ft_list(t_list **lst, int fd)
 {
 	t_list	*beg_lst;
 	t_list	*tmp;
-	char	*line;
+	t_list	*new;
 
 	beg_lst = *lst;
-	line = NULL;
-	while (beg_lst != NULL && beg_lst->fd != fd)
+	while (beg_lst != NULL)
 	{
 		tmp = beg_lst;
 		if (beg_lst->fd == fd)
@@ -88,7 +93,7 @@ static t_list	*ft_list(t_list **lst, int fd, t_list *new)
 	new->fd = fd;
 	new->next = NULL;
 	new->buffer = NULL;
-	new->line = line;
+	new->line = NULL;
 	ft_read_buffer(fd, &new);
 	if (*lst == NULL)
 		*lst = new;
@@ -101,18 +106,25 @@ int				get_next_line(int fd, char **line)
 {
 	static t_list	*lst;
 	t_list			*lst_fd;
-	t_list			*new;
+	char			*ligne;
+	int				returnVal;
 
-	new = NULL;
-	if (read(fd, 0, 0) < 0 || line == NULL)
+	ligne = NULL;
+	lst_fd = ft_list(&lst, fd);
+	if (read(fd, 0, 0) < 0 || line == NULL || lst_fd == NULL)
 		return (-1);
-	lst_fd = ft_list(&lst, fd, new);
-	if (lst_fd == NULL)
-		return (-1);
+	if (lst_fd->line != NULL)
+		free(lst_fd->line);
+	lst_fd->line = ligne;
 	if (lst_fd->buffer[0] == '\0' || lst_fd->buffer == NULL)
 		if (ft_read_buffer(fd, &lst_fd) == 0)
+		{
+			*line = ft_strdup("");
 			return (0);
-	if (ft_clear_one_line(lst_fd, fd) == -1)
-		return (-1);
-	return (1);
+		}
+	returnVal = ft_clear_one_line(lst_fd, fd);
+	*line = lst_fd->line;
+	if (*line == NULL)
+		*line = ft_strdup("");
+	return (returnVal);
 }

@@ -6,7 +6,7 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 13:53:51 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/11/04 17:01:22 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/11/05 14:21:27 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -64,7 +64,7 @@ void		ft_strdel(t_list *lst_fd)
 	size_t j;
 
 	j = 0;
-	i = ft_strlchr(lst_fd->buffer);
+	i = ft_strlchr(lst_fd->buffer) + 1;
 	while (lst_fd->buffer[i] != '\0')
 	{
 		lst_fd->buffer[j] = lst_fd->buffer[i];
@@ -78,7 +78,7 @@ void		ft_strdel(t_list *lst_fd)
 	}
 }
 
-char		*ft_strcat(char *dest, char *src)
+char		*ft_strcat_line(char *dest, char *src)
 {
 	int i;
 	int j;
@@ -87,7 +87,7 @@ char		*ft_strcat(char *dest, char *src)
 	j = 0;
 	while (dest[i] != '\0')
 		i++;
-	while (src[j] != '\0')
+	while (src[j] != '\0' && src[j] != '\n')
 	{
 		dest[i + j] = src[j];
 		j++;
