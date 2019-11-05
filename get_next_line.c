@@ -6,7 +6,7 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 14:58:07 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/11/05 13:46:47 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/11/05 15:11:12 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -20,11 +20,8 @@ static int		ft_read_buffer(int fd, t_list **lst_fd)
 
 	if (!(buffer = malloc(BUFFER_SIZE + 1)))
 		return (-1);
-	*buffer = 0;
 	ret = read(fd, buffer, BUFFER_SIZE);
 	buffer[ret] = '\0';
-	while (++ret <= BUFFER_SIZE)
-		buffer[ret] = '\0';
 	(*lst_fd)->buffer = ft_strdup(buffer);
 	free(buffer);
 	return (ret);
@@ -113,8 +110,6 @@ int				get_next_line(int fd, char **line)
 	lst_fd = ft_list(&lst, fd);
 	if (read(fd, 0, 0) < 0 || line == NULL || lst_fd == NULL)
 		return (-1);
-	if (lst_fd->line != NULL)
-		free(lst_fd->line);
 	lst_fd->line = ligne;
 	if (lst_fd->buffer[0] == '\0' || lst_fd->buffer == NULL)
 		if (ft_read_buffer(fd, &lst_fd) == 0)
@@ -123,7 +118,8 @@ int				get_next_line(int fd, char **line)
 			return (0);
 		}
 	returnVal = ft_clear_one_line(lst_fd, fd);
-	*line = lst_fd->line;
+	*line = ft_strdup(lst_fd->line);
+	free(lst_fd->line);
 	if (*line == NULL)
 		*line = ft_strdup("");
 	return (returnVal);
