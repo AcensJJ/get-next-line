@@ -6,7 +6,7 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 14:58:07 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/11/05 15:11:12 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/11/05 17:00:59 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,8 +22,11 @@ static int		ft_read_buffer(int fd, t_list **lst_fd)
 		return (-1);
 	ret = read(fd, buffer, BUFFER_SIZE);
 	buffer[ret] = '\0';
+	if ((*lst_fd)->buffer != NULL)
+		free((*lst_fd)->buffer);
 	(*lst_fd)->buffer = ft_strdup(buffer);
 	free(buffer);
+	buffer = NULL;
 	return (ret);
 }
 
@@ -41,7 +44,7 @@ static int		ft_strjoin_lst(t_list *lst_fd)
 	*ptr = 0;
 	if (lst_fd->line != NULL)
 		ptr = ft_strcat_line(ptr, lst_fd->line);
-	free((void *)lst_fd->line);
+	free(lst_fd->line);
 	lst_fd->line = ptr;
 	ptr = ft_strcat_line(ptr, lst_fd->buffer);
 	ptr[i + j] = 0;
@@ -104,7 +107,7 @@ int				get_next_line(int fd, char **line)
 	static t_list	*lst;
 	t_list			*lst_fd;
 	char			*ligne;
-	int				returnVal;
+	int				clear_val;
 
 	ligne = NULL;
 	lst_fd = ft_list(&lst, fd);
@@ -114,13 +117,16 @@ int				get_next_line(int fd, char **line)
 	if (lst_fd->buffer[0] == '\0' || lst_fd->buffer == NULL)
 		if (ft_read_buffer(fd, &lst_fd) == 0)
 		{
+			ft_del_list(&lst, lst_fd);
 			*line = ft_strdup("");
 			return (0);
 		}
-	returnVal = ft_clear_one_line(lst_fd, fd);
+	clear_val = ft_clear_one_line(lst_fd, fd);
 	*line = ft_strdup(lst_fd->line);
 	free(lst_fd->line);
+	if (clear_val == 0)
+		ft_del_list(&lst, lst_fd);
 	if (*line == NULL)
 		*line = ft_strdup("");
-	return (returnVal);
+	return (clear_val);
 }

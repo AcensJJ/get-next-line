@@ -6,25 +6,24 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 13:53:51 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/11/05 14:26:21 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/11/05 17:15:33 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char		*ft_strcpy(char *dest, const char *src)
+void		ft_del_list(t_list **lst, t_list *lst_fd)
 {
-	size_t		i;
+	t_list *beg_lst;
 
-	i = 0;
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = 0;
-	return (dest);
+	beg_lst = *lst;
+	while (beg_lst != lst_fd)
+		beg_lst = beg_lst->next;
+	free(beg_lst->buffer);
+	beg_lst->buffer = NULL;
+	free(beg_lst);
+	beg_lst = NULL;
 }
 
 char		*ft_strdup(const char *src)
@@ -38,7 +37,13 @@ char		*ft_strdup(const char *src)
 	if (!(dest = malloc(sizeof(char) * (i + 1))))
 		return (NULL);
 	*dest = 0;
-	ft_strcpy(dest, src);
+	i = 0;
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = 0;
 	return (dest);
 }
 
