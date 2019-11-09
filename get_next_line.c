@@ -6,7 +6,7 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 14:58:07 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/11/09 17:55:40 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/11/09 18:11:35 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -56,20 +56,20 @@ static int		ft_strjoin_lst(t_list *lst_fd)
 
 static int		ft_clear_one_line(t_list *lst_fd, int fd)
 {
-	int a;
-	int b;
+	int eol;
+	int eof;
 
-	a = 0;
-	b = 1;
-	while (a == 0 && b != 0)
+	eol = 0;
+	eof = 1;
+	while (eol == 0 && eof != 0)
 	{
-		a = ft_strjoin_lst(lst_fd);
-		if (a == 0)
-			b = ft_read_buffer(fd, &lst_fd);
-		if (a == -1 || b == -1)
+		eol = ft_strjoin_lst(lst_fd);
+		if (eol == 0)
+			eof = ft_read_buffer(fd, &lst_fd);
+		if (eol == -1 || eof == -1)
 			return (-1);
 	}
-	if (a == 0 && b == 0)
+	if (eol == 0 && eof == 0)
 		return (0);
 	return (1);
 }
