@@ -6,7 +6,7 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 13:53:51 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/11/05 17:15:33 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/11/09 17:53:45 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,8 +22,6 @@ void		ft_del_list(t_list **lst, t_list *lst_fd)
 		beg_lst = beg_lst->next;
 	free(beg_lst->buffer);
 	beg_lst->buffer = NULL;
-	free(beg_lst);
-	beg_lst = NULL;
 }
 
 char		*ft_strdup(const char *src)
