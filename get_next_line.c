@@ -6,7 +6,7 @@
 /*   By: jacens <jacens@student.le-101.fr>          +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2019/10/24 14:58:07 by jacens       #+#   ##    ##    #+#       */
-/*   Updated: 2019/11/10 22:28:32 by jacens      ###    #+. /#+    ###.fr     */
+/*   Updated: 2019/11/11 04:10:07 by jacens      ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,7 +18,7 @@ static int		ft_read_buffer(int fd, t_list **lst_fd)
 	int		ret;
 	char	*buffer;
 
-	if (!(buffer = malloc(BUFFER_SIZE + 1)))
+	if (!(buffer = malloc(BUFFER_SIZE + 1)) || BUFFER_SIZE == 0)
 		return (-1);
 	ret = read(fd, buffer, BUFFER_SIZE);
 	buffer[ret] = '\0';
