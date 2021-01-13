@@ -1,6 +1,6 @@
 # get-next-line
 
-![Screenshot 2020-10-21_18-45-38-835](https://user-images.githubusercontent.com/45235527/96751780-e4a25780-13cd-11eb-9d06-aa687ff25143.png)
+ <img src="https://user-images.githubusercontent.com/45235527/96751780-e4a25780-13cd-11eb-9d06-aa687ff25143.png" width="250" height="200" />
 
 <strong>Description</strong>
 
