@@ -11,7 +11,7 @@ indispensable pour un certain nombre de vos prochains projets.
 
 # Partie Obligatoire - Get_next_line
 
-![Screenshot 2020-10-21_19-00-47-804](https://user-images.githubusercontent.com/45235527/96753205-d0f7f080-13cf-11eb-9730-1a2309c69664.png)
+![Sujet](https://user-images.githubusercontent.com/45235527/96753205-d0f7f080-13cf-11eb-9730-1a2309c69664.png)
 
 - Des appels successifs à votre fonction <strong>get_next_line</strong> doivent vous permettre de
 lire l’entièreté du texte disponible sur le file descriptor, une ligne à la fois, jusqu’au
