@@ -1,6 +1,6 @@
 # get-next-line
 
-<img src="https://user-images.githubusercontent.com/45235527/96751780-e4a25780-13cd-11eb-9d06-aa687ff25143.png" width="250" height="200" />
+<img alt="Note" src="https://user-images.githubusercontent.com/45235527/96751780-e4a25780-13cd-11eb-9d06-aa687ff25143.png" width="250" height="200" />
 
 <strong>Description</strong>
 
