@@ -4,7 +4,7 @@
 
 <img alt="Note" src="https://user-images.githubusercontent.com/45235527/96751780-e4a25780-13cd-11eb-9d06-aa687ff25143.png" width="250" height="200" />
 
-<strong>Description</strong>
+### <strong>Description</strong>
 
 Qu'il s'agisse d'un fichier, de l'entrée standard, ou même plus tard d'une connexion réseau, vous aurez 
 toujours besoin de lire du contenu ligne par ligne. Il est donc temps de vous attaquer à cette fonction, 
